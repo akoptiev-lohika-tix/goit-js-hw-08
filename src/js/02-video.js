@@ -1,6 +1,8 @@
 import Player from '@vimeo/player';
-import { save, load } from './storage';
 import _ from 'lodash';
+
+import { save, load } from './storage';
+
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
