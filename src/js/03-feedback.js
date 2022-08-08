@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { save, load, remove } from './storage';
+import { save, load, remove } from './storage.js';
 
 const LOCALSTORAGE_KEY = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
@@ -34,19 +34,36 @@ form.addEventListener('submit', event => {
 
   form.reset();
   remove(LOCALSTORAGE_KEY);
+  resetFeedbackFormState();
 });
 
 function updateData() {
   if (!load(LOCALSTORAGE_KEY)) {
-    emailInput.value = '';
-    messageInput.value = '';
-    feedbackFormState.email = '';
-    feedbackFormState.message = '';
+    resetInputValues();
+    resetFeedbackFormState();
   } else {
     const dataFromStorage = load(LOCALSTORAGE_KEY);
-    emailInput.value = dataFromStorage.email;
-    messageInput.value = dataFromStorage.message;
-    feedbackFormState.email = dataFromStorage.email;
-    feedbackFormState.message = dataFromStorage.message;
+    setInputsValues(dataFromStorage);
+    setFormStateValues(dataFromStorage);
   }
+}
+
+function resetFeedbackFormState() {
+  feedbackFormState.email = '';
+  feedbackFormState.message = '';
+}
+
+function resetInputValues() {
+  emailInput.value = '';
+  messageInput.value = '';
+}
+
+function setInputsValues(data) {
+  emailInput.value = data.email;
+  messageInput.value = data.message;
+}
+
+function setFormStateValues(data) {
+  feedbackFormState.email = data.email;
+  feedbackFormState.message = data.message;
 }
